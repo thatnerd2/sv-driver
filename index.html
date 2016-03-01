@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>SV</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+  </head>
+  <body>
+    <img id ="pic" src="https://maps.googleapis.com/maps/api/streetview?size=400x400&location=45.233844,-111.658534&fov=90&heading=220pitch=10&key=AIzaSyAiFRN2Vdl82IeS4eFItwqm683ngLap32o">
+  </body>
+
+  <script>
+    lat = 40.253152
+    lon = -111.644180
+    heading = 220
+    pitch = 10
+
+    root = "https://maps.googleapis.com/maps/api/streetview?size=400x400"
+    key = "AIzaSyAiFRN2Vdl82IeS4eFItwqm683ngLap32o"
+
+    $("#pic").click(function () {
+      lat += 0.1
+      var linkparts = [root,
+                   "location=" + lat + "," + lon,
+                   "fov=90",
+                   "heading=" + heading,
+                   "pitch=" + pitch,
+                   "key=" + key]
+      var link = linkparts.join("&")
+      console.log("LINK: " + link)
+      $("#pic").attr("src", link)
+    })
+  </script>
+</html>
