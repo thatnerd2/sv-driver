@@ -9,16 +9,16 @@
   </body>
 
   <script>
-    lat = 40.253152
-    lon = -111.644180
-    heading = 220
-    pitch = 10
+    lat = 40.251224
+    lon = -111.658657
+    head = 90
+    var HEAD_MOD = 8
+    
 
-    root = "https://maps.googleapis.com/maps/api/streetview?size=400x400"
-    key = "AIzaSyAiFRN2Vdl82IeS4eFItwqm683ngLap32o"
-
-    $("#pic").click(function () {
-      lat += 0.1
+    var getPicture = function (latitude, longitude, heading) {
+      pitch = 10
+      root = "https://maps.googleapis.com/maps/api/streetview?size=400x400"
+      key = "AIzaSyAiFRN2Vdl82IeS4eFItwqm683ngLap32o"
       var linkparts = [root,
                    "location=" + lat + "," + lon,
                    "fov=90",
@@ -26,8 +26,49 @@
                    "pitch=" + pitch,
                    "key=" + key]
       var link = linkparts.join("&")
-      console.log("LINK: " + link)
+      console.log("lat: " + latitude)
+      console.log("long: " + longitude)
+      console.log("heading: " + heading)
+      console.log("-------------------")
       $("#pic").attr("src", link)
-    })
+    }
+
+    getPicture(lat, lon, head)
+
+/* 
+So at 0, you're facing north
+At 180, you're south
+At 90, you're east
+At 270 you're west
+
+
+*/
+
+
+  $(document).keydown(function(e) {
+    switch(e.which) {
+        case 37: // left
+        head -= HEAD_MOD
+        getPicture(lat, lon, head)
+        break;
+
+        case 38: // up
+          lat += 0.0001 * Math.cos(head * Math.PI/180)
+          lon += 0.0001 * Math.sin(head * Math.PI/180)
+          getPicture(lat, lon, head)
+        break;
+
+        case 39: // right
+          head += HEAD_MOD
+          getPicture(lat, lon, head)
+        break;
+
+        case 40: // down
+        break;
+
+        default: return; // exit this handler for other keys
+    }
+    e.preventDefault(); // prevent the default action (scroll / move caret)
+  });
   </script>
 </html>
